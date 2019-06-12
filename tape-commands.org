@@ -1,0 +1,86 @@
+
+device address, 6 bits, bits 0,1,2,3,4,5
+command high bits, 3 bits, bits 13,14,15
+op command, 4 bits, bits 9,10,11,12
+
+| 18 | 17 | 16 | 15    | 14    | 13  | 12   | 11   | 10   | 9    |   8 |    7 | 6 |  5 |  4 |  3 |  2 |  1 |  0 | meaning         |
+|    |    |    |       |       |     |      |      |      |      |     |      |   | ad | ad | ad | ad | ad | ad |                 |
+|----+----+----+-------+-------+-----+------+------+------+------+-----+------+---+----+----+----+----+----+----+-----------------|
+|    |    |    | cmb   | cmd   | cmd | ctrl | ctrl | ctrl | ctrl |     |      |   |  0 |  0 |  1 |  0 |  1 |  1 | buffer          |
+|    |    |    |       |       |     |      |      |      |      |     |      |   |    |    |    |    |    |    |                 |
+|    |    |    | ? out | ? out | trk | trk  | cmd  | cmd  | cmd  | cmd | ? in |   |  0 |  0 |  1 |  1 |  0 |  1 | transport       |
+|    |    |    |       |       |     |      |      |      |      |     |      |   |    |    |    |    |    |    |                 |
+|    |    |    |       |       |     |      |      |      |      |     |      |   |  1 |  0 |  0 |  1 |  0 |  1 | ???             |
+|    |    |    |       |       |     |      |      |      |      |     |      |   |    |    |    |    |    |    |                 |
+|    |    |    |       |       |     |      |      |      |      |     |      |   |  0 |  0 |  0 |  1 |  1 |  1 | initialization? |
+|    |    |    |       |       |     |      |      |      |      |     |      |   |    |    |    |    |    |    |                 |
+|    |    |    |       |       |     |      |      |      |      |     |      |   |    |    |    |    |    |    | sdsc            |
+|    |    |    |       |       |     |      |      |      |      |     |      |   |    |    |    |    |    |    |                 |
+
+motion command structure
+9 10 11, gated 8
+
+int12
+
+transport commands
+| 11 | 10 | 9 | 8 | name                 |
+|----+----+---+---+----------------------|
+|  0 |  0 | 0 | 0 | stop                 |
+|  0 |  0 | 0 | 1 | rewind               |
+|  0 |  0 | 1 | 0 | write continuous ibg |
+|  0 |  1 | 0 | 1 | fast forward         |
+|  0 |  1 | 1 | 1 | read a block         |
+|  1 |  0 | 0 | 1 | fast reverse         |
+|  1 |  0 | 1 | 1 | write                |
+|  1 |  1 | 0 | 1 | back space           |
+|  1 |  1 | 1 | 1 | read continuous      |
+
+buffer commands, cps-jk10 sheet 4
+| 15 | 14 | 13 | id | purpose                                            |
+|----+----+----+----+----------------------------------------------------|
+|  0 |  1 |  0 |  5 | send bits 9 10 11 12 to state1 register, subdecode |
+|  1 |  1 |  0 |    | buffer swap                                        |
+|  1 |  0 |  0 |    | unused?                                            |
+|  0 |  0 |  1 |    | clear br0 flipflop                                 |
+|  1 |  0 |  1 |    | some sort of clear buffer counter                  |
+|  0 |  1 |  1 |    | on-line buffer fill?                               |
+|  1 |  1 |  1 |    | buffer initialization                              |
+
+buffer subdecode 010
+something to do with the offline buffer
+
+
+|  value | name     | pr-1c957 ref | bin                   | name                        |
+|--------+----------+--------------+-----------------------+-----------------------------|
+|        |          |              | --ccc rrrr --- aaaaaa |                             |
+| 000013 | bstat    | p.26         | 00000 0000 000 001011 | status request              |
+| 020013 | bclrbrf  | 1c958 p.44   | 00001 0000 000 001011 | clear br                    |
+| 042013 | bsldon   | p.60         | 00010 0010 000 001011 | prepare buffer for load     |
+| 044013 | bsunldon |              | 00010 0100 000 001011 | unload                      |
+| 050013 | bstfon   | 1c958 p.39   | 00010 1000 000 001011 | stuff                       |
+| 060013 | bfill    | 1c958 p.42   | 00011 0000 000 001011 | right align buffer contents |
+| 120013 | bclrocn  | 1c958 p.41   | 00101 0000 000 001011 | clear off-line counter      |
+| 140013 | bswb     | p.60         | 00110 0000 000 001011 | swap                        |
+| 160013 | binit    | 1c958 p.37   | 00111 0000 000 001011 |                             |
+|        |          |              |                       |                             |
+|        |          |              | --??TT cccc ?- aaaaaa |                             |
+| 000215 | tmstop   | 1c958 p.50   | 000000 0000 10 001101 | deselect the tape transport |
+| 001015 | tscrc    | 1c958 p.56   | 000000 0010 00 001101 | shift crc into buffer unit  |
+| 002015 | tstat    | p.25         | 000000 0100 00 001101 | get status                  |
+| 002415 | tff      | p.55         | 000000 0101 00 001101 | fast forward                |
+| 003415 | trb      | p.45         | 000000 0111 00 001101 | read block                  |
+| 006415 | tbs      | p.50         | 000000 1101 00 001101 | back space                  |
+| 007415 | trt      | p.33         | 000000 1111 00 001101 | read continuous             |
+| 004415 | tfr      | p.64         | 000000 1001 00 001101 | fast reverse                |
+|        |          |              |                       |                             |
+| 005145 | twt      | p.60         | 0000001010 01 100101  |                             |
+|        |          |              |                       |                             |
+| 100007 | sd       | 1c958 p.48   | 0010000000 00 000111  | something status            |
+| 010007 | sst      | p.42         | 0000010000 00 000111  |                             |
+| 040007 | init     | p.48         | 0001000000 00 000111  |                             |
+|        |          |              |                       |                             |
+
+
+
+some status output bit patterns can be found in
+https://archive.org/details/bellsystem_PR-1C958-50/page/n15
