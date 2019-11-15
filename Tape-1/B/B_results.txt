@@ -1,0 +1,78 @@
+Failed to decode blocks:
+	49 @ 29853524 		OK
+	121 @ 67171385 		OK
+	168 @ 91598938 		OK
+	264 @ 141648222 	**ACTUALLY FAILED**
+	350 @ 185929898		OK
+	351 @ 185940267 	OK
+
+
+Block # 49:
+Decoding block    0/   0...
+
+    Header:
+        Preamble: 8000
+        Block   : 031
+        Track   : 0
+        EOF     : T
+        DEOF    : F
+        CRC     : 66a0
+    Computed CRC: 66a0
+
+
+Block # 121:
+Decoding block    0/   0...
+
+    Header:
+        Preamble: 8000
+        Block   : 079
+        Track   : 0
+        EOF     : F
+        DEOF    : F
+        CRC     : 2cd5
+    Computed CRC: 2cd5
+
+
+Block # 168
+Decoding block    0/   0...
+
+    Header:
+        Preamble: 8000
+        Block   : 0a8
+        Track   : 0
+        EOF     : F
+        DEOF    : F
+        CRC     : abed
+    Computed CRC: abed
+
+
+Block # 264
+Decoding block    0/   0...
+
+  BITS CHANGING TOO SLOW - PERHAPS TAPE IS REVERSED?
+  tslb=49 at sample 457859
+FAILED TO DECODE. SKIPPING
+Failed to decode blocks:
+	0 @ 457859
+
+***NOTE: Disabling the tslb check also fails with bad CRC. The wiggles look
+okay at sample 457859, so I don't know whats actually wrong here. This block
+was badly damaged and likely has to be reconstructed by other means***
+
+
+Block # 350
+Decoding block    0/   0...
+
+    Header:
+        Preamble: 8000
+        Block   : 15e
+        Track   : 0
+        EOF     : F
+        DEOF    : F
+        CRC     : 3f27
+    Computed CRC: 3f27
+
+
+Block # 351
+***NOTE: This block is actually fine. The sample number in the error presented
+belongs to block 350. This can be verified in Audacity.***

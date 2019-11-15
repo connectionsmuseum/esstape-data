@@ -1,0 +1,36 @@
+Failed to decode blocks:
+	147 @ 81372442		OK
+	312 @ 166893781		UNABLE TO RECONSTRUCT
+	337 @ 179834772		OK
+
+
+Block # 147
+Decoding block    0/   0...
+
+    Header:
+        Preamble: 8000
+        Block   : 094
+        Track   : 1
+        EOF     : F
+        DEOF    : F
+        CRC     : 6b6b
+    Computed CRC: 6b6b
+
+Block # 312
+***NOTE: Data recovery not possible. Tried inserting an appropriate
+number of zeroes into the unreadable area, but CRC failed as a result.
+Will need to reconstruct this data using other means***
+
+Block # 337
+Decoding block    0/   0...
+
+    Header:
+        Preamble: 8000
+        Block   : 152
+        Track   : 1
+        EOF     : F
+        DEOF    : F
+        CRC     : 117c
+    Computed CRC: 117c
+
+
