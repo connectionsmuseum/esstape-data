@@ -1,0 +1,2 @@
+Tape-1/A/A_reversed.wav filter=lfs diff=lfs merge=lfs -text
+Tape-1/B/B_reversed.wav filter=lfs diff=lfs merge=lfs -text
