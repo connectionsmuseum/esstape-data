@@ -1,7 +1,7 @@
 # esstape-data
 Data captured and decoded from the 3ESS generic tapes
 
-This repository will host the following files for use with keleuk's "esstape" decoder:
+This repository will host the following files for use with chordtoll's "esstape" decoder:
 
 * segments of audio that have been manually reconstructed
 * decoded binaries
